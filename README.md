@@ -62,6 +62,14 @@ npm run dev                   # 啟動 (port 3000)
 |----------|----------|-------------|
 | `NUXT_PUBLIC_API_URL` | No | API endpoint (default: `http://localhost:8000`) |
 
+## Deployment
+
+Uses [Zeabur](https://zeabur.com) with GitHub auto-deploy. Push to `main` triggers automatic deployment.
+
+Each service has its own `zbpack.json` configuration:
+- `api/zbpack.json` - Python/FastAPI
+- `web/zbpack.json` - Nuxt
+
 ## Tech Stack
 
 **Backend**

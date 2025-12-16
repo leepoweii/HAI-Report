@@ -46,12 +46,12 @@ npm install                                # Install dependencies
 npm run dev                                # Start dev server (port 3000)
 ```
 
-### Docker (API)
-```bash
-cd api
-docker build -t hai-api .
-docker run -p 8000:8000 -e OPENAI_API_KEY=xxx hai-api
-```
+### Zeabur Deployment
+This project uses Zeabur with GitHub auto-deploy. Each subdirectory has its own `zbpack.json`:
+- `api/zbpack.json` - Python/FastAPI configuration
+- `web/zbpack.json` - Nuxt build configuration
+
+Push to GitHub triggers automatic deployment.
 
 ## Environment Variables
 
