@@ -146,11 +146,12 @@
 
   /* ===== TYPING INDICATOR ===== */
   .typing-indicator {
-    @apply inline-flex gap-1.5 items-center px-1;
+    @apply flex gap-2 items-center py-1;
+    min-height: 24px;
   }
 
   .typing-indicator span {
-    @apply w-2 h-2 rounded-full;
+    @apply w-2.5 h-2.5 rounded-full;
     background: linear-gradient(135deg, #00d4ff 0%, #0891b2 100%);
     animation: typingBounce 1.4s ease-in-out infinite;
   }
