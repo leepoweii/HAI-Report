@@ -53,7 +53,7 @@ const renderedContent = computed(() => {
       <!-- Typing indicator for streaming (when no content yet) -->
       <div
         v-if="isLoading && message.role === 'assistant' && !message.content"
-        class="flex items-center gap-2 py-1"
+        class="flex items-center gap-1 py-0.5"
       >
         <span class="typing-dot"></span>
         <span class="typing-dot"></span>
@@ -214,10 +214,10 @@ const renderedContent = computed(() => {
 
 /* Typing indicator dots */
 .typing-dot {
-  width: 10px;
-  height: 10px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #00d4ff 0%, #0891b2 100%);
+  background: #22d3ee;
   animation: typingBounce 1.4s ease-in-out infinite;
 }
 
@@ -232,10 +232,10 @@ const renderedContent = computed(() => {
 @keyframes typingBounce {
   0%, 60%, 100% {
     transform: translateY(0);
-    opacity: 0.4;
+    opacity: 0.5;
   }
   30% {
-    transform: translateY(-8px);
+    transform: translateY(-4px);
     opacity: 1;
   }
 }
