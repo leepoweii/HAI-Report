@@ -4,6 +4,13 @@ import { useChat } from '~/composables/useChat'
 const { messages, isLoading, sendMessage } = useChat()
 const messagesContainer = ref<HTMLElement | null>(null)
 
+// Suggested questions for quick start
+const suggestedQuestions = [
+  '這個展覽有什麼內容？',
+  '如何操作虛擬世界？',
+  '人機互動是什麼？',
+]
+
 // Auto-scroll to bottom when new messages arrive
 watch(messages, () => {
   nextTick(() => {
@@ -19,35 +26,57 @@ function handleSend(content: string) {
     sendMessage(content)
   }
 }
+
+// Handle suggested question click
+function handleSuggestedClick(question: string) {
+  sendMessage(question)
+}
 </script>
 
 <template>
-  <div class="flex flex-col h-full bg-space-800/50 backdrop-blur-sm">
-    <!-- Header -->
-    <div class="px-4 py-3 border-b border-space-700 flex items-center gap-3">
-      <div class="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center">
-        <IconsIconRobot class="w-6 h-6 text-accent" />
-      </div>
-      <div>
-        <h2 class="font-semibold text-slate-100">展覽導覽</h2>
-        <p class="text-xs text-slate-400">歡迎詢問展覽相關問題！</p>
-      </div>
-    </div>
-
+  <div class="flex flex-col h-full text-white">
     <!-- Messages Area -->
     <div
       ref="messagesContainer"
-      class="flex-1 overflow-y-auto p-4 space-y-4"
+      class="flex-1 overflow-y-auto px-4 py-3 space-y-4"
     >
       <!-- Welcome message if no messages -->
-      <div v-if="messages.length === 0" class="text-center py-8">
-        <div class="w-16 h-16 rounded-full bg-accent/20 flex items-center justify-center mx-auto mb-4">
-          <IconsIconWave class="w-8 h-8 text-accent" />
+      <div v-if="messages.length === 0" class="flex flex-col items-center justify-center h-full py-4">
+        <!-- Main welcome -->
+        <div class="text-center mb-6">
+          <div
+            class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+            style="background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(168, 85, 247, 0.1) 100%); border: 1px solid rgba(0, 212, 255, 0.25);"
+          >
+            <IconsIconWave class="w-8 h-8" style="color: #22d3ee;" />
+          </div>
+
+          <h3 class="text-lg font-semibold mb-2" style="color: #f1f5f9;">
+            歡迎！
+          </h3>
+          <p class="text-sm max-w-[260px] mx-auto leading-relaxed" style="color: #94a3b8;">
+            我可以回答關於人機互動展覽的任何問題
+          </p>
         </div>
-        <h3 class="text-lg font-medium text-slate-200 mb-2">歡迎！</h3>
-        <p class="text-slate-400 text-sm max-w-xs mx-auto">
-          我是人機互動展覽的導覽助手，歡迎隨時向我提問！
-        </p>
+
+        <!-- Suggested questions -->
+        <div class="w-full">
+          <p class="text-xs text-center mb-3 uppercase tracking-wider" style="color: #64748b;">
+            試試這些問題
+          </p>
+          <div class="flex flex-col gap-2 px-2">
+            <button
+              v-for="question in suggestedQuestions"
+              :key="question"
+              class="w-full px-4 py-2.5 text-sm text-left rounded-xl transition-all duration-200 active:scale-[0.98]"
+              style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #e2e8f0;"
+              @click="handleSuggestedClick(question)"
+              @touchend.prevent="handleSuggestedClick(question)"
+            >
+              {{ question }}
+            </button>
+          </div>
+        </div>
       </div>
 
       <!-- Messages -->
@@ -61,7 +90,10 @@ function handleSend(content: string) {
     </div>
 
     <!-- Input Area -->
-    <div class="p-4 border-t border-space-700">
+    <div
+      class="flex-shrink-0 p-3"
+      style="background: rgba(0, 0, 0, 0.15); border-top: 1px solid rgba(255, 255, 255, 0.05);"
+    >
       <ChatInput
         :disabled="isLoading"
         @send="handleSend"
