@@ -7,6 +7,7 @@ __pycache__/
 # Build outputs
 .nuxt/
 .output/
+.zeabur/
 dist/
 
 # Environment files

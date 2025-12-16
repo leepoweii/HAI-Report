@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import { useChat } from '~/composables/useChat'
+import { useQuickChat } from '~/composables/useQuickChat'
 
 const { messages, isLoading, sendMessage } = useChat()
+const { getRandomQuestions } = useQuickChat()
 const messagesContainer = ref<HTMLElement | null>(null)
 
-// Suggested questions for quick start
-const suggestedQuestions = [
-  '這個展覽有什麼內容？',
-  '如何操作虛擬世界？',
-  '人機互動是什麼？',
-]
+// Suggested questions for quick start (randomly selected from pool of 10)
+const suggestedQuestions = ref(getRandomQuestions(3))
 
 // Auto-scroll to bottom when new messages arrive
 watch(messages, () => {
@@ -30,6 +28,11 @@ function handleSend(content: string) {
 // Handle suggested question click
 function handleSuggestedClick(question: string) {
   sendMessage(question)
+}
+
+// Check if a specific message should show loading state
+function shouldShowLoading(index: number, message: { role: string; content: string }) {
+  return isLoading.value && index === messages.value.length - 1 && message.role === 'assistant'
 }
 </script>
 
@@ -82,10 +85,10 @@ function handleSuggestedClick(question: string) {
       <!-- Messages -->
       <ChatMessage
         v-for="(message, index) in messages"
-        :key="index"
+        :key="`msg-${index}`"
         :message="message"
         :is-last="index === messages.length - 1"
-        :is-loading="isLoading && index === messages.length - 1 && message.role === 'assistant'"
+        :is-loading="shouldShowLoading(index, message)"
       />
     </div>
 
