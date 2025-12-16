@@ -51,11 +51,14 @@ const renderedContent = computed(() => {
       ></div>
 
       <!-- Typing indicator for streaming (when no content yet) -->
-      <span v-if="isLoading && message.role === 'assistant' && !message.content" class="typing-indicator">
-        <span></span>
-        <span></span>
-        <span></span>
-      </span>
+      <div
+        v-if="isLoading && message.role === 'assistant' && !message.content"
+        class="flex items-center gap-2 py-1"
+      >
+        <span class="typing-dot"></span>
+        <span class="typing-dot"></span>
+        <span class="typing-dot"></span>
+      </div>
 
       <!-- Cursor for streaming text -->
       <span
@@ -207,5 +210,33 @@ const renderedContent = computed(() => {
 
 .chat-bubble-user .prose-chat :deep(a) {
   color: #0a0a10;
+}
+
+/* Typing indicator dots */
+.typing-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00d4ff 0%, #0891b2 100%);
+  animation: typingBounce 1.4s ease-in-out infinite;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes typingBounce {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-8px);
+    opacity: 1;
+  }
 }
 </style>
