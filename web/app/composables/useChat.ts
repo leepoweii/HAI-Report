@@ -3,10 +3,13 @@ export interface Message {
   content: string
 }
 
+// Singleton state - persists across component lifecycle
+// These refs are created once at module load time, not per component instance
+const messages = ref<Message[]>([])
+const isLoading = ref(false)
+
 export function useChat() {
   const config = useRuntimeConfig()
-  const messages = ref<Message[]>([])
-  const isLoading = ref(false)
 
   async function sendMessage(content: string) {
     if (!content.trim() || isLoading.value) return
